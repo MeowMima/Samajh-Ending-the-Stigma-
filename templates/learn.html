@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Learning Hub — Samajh</title>
+  <link rel="stylesheet" href="/static/design.css">
+  <link rel="stylesheet" href="/static/learn.css">
+</head>
+<body>
+
+  <div id="cursorDot" class="cursor-dot"></div>
+  <div id="cursorRing" class="cursor-ring"></div>
+
+  <nav class="nav" id="mainNav">
+    <a href="/" class="nav-logo">Samajh<span>.</span></a>
+    <ul class="nav-links">
+      <li><a href="/learn" class="active">Learning Hub</a></li>
+      <li><a href="/journal">Journal</a></li>
+      <li><a href="/saathi">Saathi</a></li>
+      <li><a href="/explore">Explore</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-wrapper">
+
+    <!-- Page Header -->
+    <div class="learn-header">
+      <div class="learn-header-inner">
+        <span class="section-label animate-fadeup">Learning Hub</span>
+        <h1 class="animate-fadeup-delay-1">The world of the mind,<br><em>explained with care</em></h1>
+        <p class="animate-fadeup-delay-2">
+          Explore articles, histories, stories, and science — 
+          crafted to help you understand mental wellness without jargon or judgment.
+        </p>
+        <!-- Search -->
+        <div class="learn-search animate-fadeup-delay-3">
+          <input type="text" id="searchInput" class="form-input" placeholder="Search topics (e.g. anxiety, burnout, stigma...)">
+          <button class="btn btn-primary" onclick="searchTopics()">Search</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Featured Topics -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-label">Featured</span>
+        <h2 class="section-title">Start your exploration</h2>
+        <div class="divider"></div>
+      </div>
+
+      <div class="topics-grid">
+        <!-- Each card opens an article page -->
+        <a href="/article/history" class="topic-card tc-history">
+          <div class="tc-bg"></div>
+          <div class="tc-content">
+            <div class="tc-icon">🏛️</div>
+            <span class="tc-category">History</span>
+            <h3>The History of Mental Health</h3>
+            <p>From ancient beliefs to modern neuroscience — a journey through how humanity has understood the mind.</p>
+            <div class="tc-footer">
+              <span class="tc-read">Read article →</span>
+            </div>
+          </div>
+        </a>
+
+        <a href="/article/anxiety" class="topic-card tc-anxiety">
+          <div class="tc-bg"></div>
+          <div class="tc-content">
+            <div class="tc-icon">🌊</div>
+            <span class="tc-category">Understanding</span>
+            <h3>Anxiety Explained</h3>
+            <p>What anxiety actually is, how it feels, and why it's one of the most common human experiences.</p>
+            <div class="tc-footer">
+              <span class="tc-read">Read article →</span>
+            </div>
+          </div>
+        </a>
+
+        <a href="/article/depression" class="topic-card tc-depression">
+          <div class="tc-bg"></div>
+          <div class="tc-content">
+            <div class="tc-icon">🌧️</div>
+            <span class="tc-category">Understanding</span>
+            <h3>Understanding Depression</h3>
+            <p>Beyond the clichés — what depression really means, how it affects people, and how healing happens.</p>
+            <div class="tc-footer">
+              <span class="tc-read">Read article →</span>
+            </div>
+          </div>
+        </a>
+
+        <a href="/article/stigma" class="topic-card tc-stigma">
+          <div class="tc-bg"></div>
+          <div class="tc-content">
+            <div class="tc-icon">🔓</div>
+            <span class="tc-category">Society</span>
+            <h3>Breaking the Stigma</h3>
+            <p>Why stigma exists, how it harms, and how communities are changing the conversation around mental health.</p>
+            <div class="tc-footer">
+              <span class="tc-read">Read article →</span>
+            </div>
+          </div>
+        </a>
+
+        <a href="/article/caregivers" class="topic-card tc-caregivers">
+          <div class="tc-bg"></div>
+          <div class="tc-content">
+            <div class="tc-icon">❤️</div>
+            <span class="tc-category">Relationships</span>
+            <h3>Caregivers & Loved Ones</h3>
+            <p>The often-overlooked emotional journey of those who care for someone with mental health challenges.</p>
+            <div class="tc-footer">
+              <span class="tc-read">Read article →</span>
+            </div>
+          </div>
+        </a>
+
+        <a href="/article/stories" class="topic-card tc-stories">
+          <div class="tc-bg"></div>
+          <div class="tc-content">
+            <div class="tc-icon">✨</div>
+            <span class="tc-category">Stories</span>
+            <h3>Real Stories of Resilience</h3>
+            <p>People who have navigated darkness, uncertainty, and difficult chapters — and found their way through.</p>
+            <div class="tc-footer">
+              <span class="tc-read">Read article →</span>
+            </div>
+          </div>
+        </a>
+
+        <a href="/article/research" class="topic-card tc-research">
+          <div class="tc-bg"></div>
+          <div class="tc-content">
+            <div class="tc-icon">🔬</div>
+            <span class="tc-category">Science</span>
+            <h3>Latest Research</h3>
+            <p>What scientists are discovering about the mind — explained without jargon, with genuine wonder.</p>
+            <div class="tc-footer">
+              <span class="tc-read">Read article →</span>
+            </div>
+          </div>
+        </a>
+
+        <a href="/article/burnout" class="topic-card tc-burnout">
+          <div class="tc-bg"></div>
+          <div class="tc-content">
+            <div class="tc-icon">🕯️</div>
+            <span class="tc-category">Modern Life</span>
+            <h3>Burnout — The Modern Epidemic</h3>
+            <p>Understanding why exhaustion has become the hallmark of modern life, and what we can do about it.</p>
+            <div class="tc-footer">
+              <span class="tc-read">Read article →</span>
+            </div>
+          </div>
+        </a>
+
+        <a href="/article/mindfulness" class="topic-card tc-mindfulness">
+          <div class="tc-bg"></div>
+          <div class="tc-content">
+            <div class="tc-icon">🧘</div>
+            <span class="tc-category">Wellness</span>
+            <h3>Mindfulness & Science</h3>
+            <p>What does the research actually say about mindfulness? A clear-eyed look at one of wellness's biggest ideas.</p>
+            <div class="tc-footer">
+              <span class="tc-read">Read article →</span>
+            </div>
+          </div>
+        </a>
+
+        <a href="/article/relationships" class="topic-card tc-relationships">
+          <div class="tc-bg"></div>
+          <div class="tc-content">
+            <div class="tc-icon">🫂</div>
+            <span class="tc-category">Connection</span>
+            <h3>Mental Health & Relationships</h3>
+            <p>How our connections with others shape and are shaped by our mental and emotional wellbeing.</p>
+            <div class="tc-footer">
+              <span class="tc-read">Read article →</span>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Explore by Category -->
+    <div class="category-section">
+      <div class="section">
+        <div class="section-header">
+          <span class="section-label">Browse by theme</span>
+          <h2 class="section-title">What interests you?</h2>
+          <div class="divider"></div>
+        </div>
+        <div class="category-chips">
+          <button class="chip active" onclick="filterTopics('all')">All Topics</button>
+          <button class="chip" onclick="filterTopics('understanding')">Understanding Disorders</button>
+          <button class="chip" onclick="filterTopics('history')">History & Science</button>
+          <button class="chip" onclick="filterTopics('society')">Society & Stigma</button>
+          <button class="chip" onclick="filterTopics('stories')">Real Stories</button>
+          <button class="chip" onclick="filterTopics('relationships')">Relationships</button>
+          <button class="chip" onclick="filterTopics('wellness')">Wellness Tools</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Call to explore more -->
+    <div class="section text-center" style="padding-top:20px; padding-bottom:100px;">
+      <div class="explore-cta-box">
+        <div class="ecb-icon">🤖</div>
+        <h3>Want to explore a specific topic?</h3>
+        <p>Let our AI find videos, tips, and guidance tailored to what's on your mind.</p>
+        <a href="/explore" class="btn btn-primary mt-16">Explore with AI →</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-logo">Samajh.</div>
+    <p>Not a substitute for professional help. If you're in crisis, please reach out to a helpline.</p>
+    <ul class="footer-links">
+      <li><a href="/learn">Learning Hub</a></li>
+      <li><a href="/journal">Journal</a></li>
+      <li><a href="/saathi">Saathi</a></li>
+      <li><a href="/explore">Explore</a></li>
+    </ul>
+  </footer>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => { 
+  const dot = document.getElementById('cursorDot');
+  const ring = document.getElementById('cursorRing');
+
+  let mx = 0, my = 0, rx = 0, ry = 0;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX;
+    my = e.clientY;
+
+    if (dot) {
+      dot.style.left = mx + 'px';
+      dot.style.top = my + 'px';
+    }
+  });
+
+  function animate() {
+    rx += (mx - rx) * 0.1;
+    ry += (my - ry) * 0.1;
+
+    if (ring) {
+      ring.style.left = rx + 'px';
+      ring.style.top = ry + 'px';
+    }
+
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+});
+</script>
+
+<script>
+function searchTopics() {
+  const query = document.getElementById("searchInput").value.trim();
+
+  if (!query) return;
+
+  // Redirect to explore page with query
+  window.location.href = `/explore?q=${encodeURIComponent(query)}`;
+}
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const params = new URLSearchParams(window.location.search);
+  const q = params.get("q");
+
+  if (q) {
+    document.getElementById("topicInput").value = q;
+    explore(); // 🔥 auto-run
+  }
+});
+</script>
+
+</body>
+</html>

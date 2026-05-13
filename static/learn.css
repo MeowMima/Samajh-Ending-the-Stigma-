@@ -1,0 +1,266 @@
+/* ═══════════════════════════════════════════
+   LEARNING HUB — Samajh
+═══════════════════════════════════════════ */
+
+/* ─────────────────────────────────────────
+   Page Header
+───────────────────────────────────────── */
+.learn-header {
+  background: linear-gradient(135deg, var(--green-deep) 0%, #3a2d60 100%);
+  padding: 120px 40px 80px;
+  text-align: center;
+}
+
+.learn-header-inner {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.learn-header .section-label {
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 16px;
+}
+
+.learn-header h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 5vw, 3.5rem);
+  color: var(--white);
+  line-height: 1.2;
+  margin-bottom: 20px;
+}
+
+.learn-header h1 em {
+  font-style: italic;
+  color: var(--green-pale);
+}
+
+.learn-header p {
+  font-size: 1.05rem;
+  color: rgba(255,255,255,0.7);
+  line-height: 1.8;
+  margin-bottom: 32px;
+}
+
+.learn-search {
+  display: flex;
+  gap: 12px;
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+.learn-search .form-input {
+  flex: 1;
+  background: rgba(255,255,255,0.12);
+  border-color: rgba(255,255,255,0.25);
+  color: var(--white);
+  backdrop-filter: blur(10px);
+}
+
+.learn-search .form-input::placeholder {
+  color: rgba(255,255,255,0.5);
+}
+
+.learn-search .form-input:focus {
+  border-color: var(--green-soft);
+  background: rgba(255,255,255,0.15);
+  box-shadow: 0 0 0 3px rgba(106,171,150,0.2);
+}
+
+/* ─────────────────────────────────────────
+   Topics Grid
+───────────────────────────────────────── */
+.topics-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.topic-card {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  min-height: 280px;
+  display: flex;
+  flex-direction: column;
+  transition: var(--transition);
+  cursor: pointer;
+}
+
+.topic-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Colored background per topic */
+.tc-history .tc-bg   { background: linear-gradient(135deg, #2d5a4e, #1e3d34); }
+.tc-anxiety .tc-bg   { background: linear-gradient(135deg, #3d4f7a, #2a3557); }
+.tc-depression .tc-bg { background: linear-gradient(135deg, #4a3d6e, #332a50); }
+.tc-stigma .tc-bg    { background: linear-gradient(135deg, #7a4a3a, #5a3328); }
+.tc-caregivers .tc-bg { background: linear-gradient(135deg, #7a4a5a, #5a2d3e); }
+.tc-stories .tc-bg   { background: linear-gradient(135deg, #4a6e3d, #334e29); }
+.tc-research .tc-bg  { background: linear-gradient(135deg, #3a5a7a, #243d57); }
+.tc-burnout .tc-bg   { background: linear-gradient(135deg, #7a5a3a, #5a3e22); }
+.tc-mindfulness .tc-bg { background: linear-gradient(135deg, #3d6a5a, #264840); }
+.tc-relationships .tc-bg { background: linear-gradient(135deg, #6a3d7a, #4a2558); }
+
+.tc-bg {
+  position: absolute;
+  inset: 0;
+}
+
+/* Subtle texture overlay */
+.tc-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+.tc-content {
+  position: relative;
+  z-index: 1;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.tc-icon {
+  font-size: 2rem;
+  margin-bottom: 12px;
+}
+
+.tc-category {
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.55);
+  margin-bottom: 8px;
+}
+
+.tc-content h3 {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  color: var(--white);
+  margin-bottom: 10px;
+  line-height: 1.3;
+}
+
+.tc-content p {
+  font-size: 0.875rem;
+  color: rgba(255,255,255,0.7);
+  line-height: 1.7;
+  flex: 1;
+}
+
+.tc-footer {
+  margin-top: 20px;
+}
+
+.tc-read {
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.6);
+  transition: var(--transition);
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+  padding-bottom: 2px;
+}
+
+.topic-card:hover .tc-read {
+  color: var(--white);
+  border-color: rgba(255,255,255,0.6);
+}
+
+@media (max-width: 900px) {
+  .topics-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 600px) {
+  .topics-grid { grid-template-columns: 1fr; }
+  .learn-search { flex-direction: column; }
+}
+
+/* ─────────────────────────────────────────
+   Category Filter
+───────────────────────────────────────── */
+.category-section {
+  background: var(--cream-warm);
+  padding: 60px 0;
+}
+
+.category-chips {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.chip {
+  padding: 10px 22px;
+  border-radius: 100px;
+  border: 1.5px solid var(--warm-sand);
+  background: var(--white);
+  color: var(--text-muted);
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.chip:hover, .chip.active {
+  background: var(--green-deep);
+  border-color: var(--green-deep);
+  color: var(--white);
+}
+
+/* ─────────────────────────────────────────
+   Explore CTA Box
+───────────────────────────────────────── */
+.explore-cta-box {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--green-mist), var(--lavender-pale));
+  border-radius: var(--radius-xl);
+  padding: 48px 56px;
+  text-align: center;
+  max-width: 480px;
+  box-shadow: var(--shadow-sm);
+}
+
+.ecb-icon {
+  font-size: 2.5rem;
+  margin-bottom: 16px;
+}
+
+.explore-cta-box h3 {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  color: var(--text-dark);
+  margin-bottom: 10px;
+}
+
+.explore-cta-box p {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+
+.cursor-dot {
+    position: fixed;
+    width: 6px;
+    height: 6px;
+    background: black;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+}
+
+.cursor-ring {
+    position: fixed;
+    width: 30px;
+    height: 30px;
+    border: 2px solid black;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+}

@@ -1,0 +1,429 @@
+/* ═══════════════════════════════════════════
+   JOURNAL PAGE — Samajh
+═══════════════════════════════════════════ */
+
+/* ─────────────────────────────────────────
+   Layout
+───────────────────────────────────────── */
+.journal-layout {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 48px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 40px 80px;
+}
+
+/* ─────────────────────────────────────────
+   Journal Header
+───────────────────────────────────────── */
+.journal-header {
+  margin-bottom: 32px;
+}
+
+.journal-date {
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.journal-header h1 {
+  font-family: var(--font-display);
+  font-size: 2.5rem;
+  color: var(--text-dark);
+  margin-bottom: 8px;
+}
+
+.journal-subtitle {
+  color: var(--text-muted);
+  font-size: 1rem;
+  font-family: var(--font-serif);
+  font-style: italic;
+}
+
+/* ─────────────────────────────────────────
+   Notebook UI
+───────────────────────────────────────── */
+.notebook {
+  display: flex;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  background: var(--white);
+  min-height: 520px;
+  position: relative;
+}
+
+.notebook-binding {
+  width: 48px;
+  background: linear-gradient(180deg, #2d5a4e, #3d7a6a);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  padding: 24px 0;
+  flex-shrink: 0;
+}
+
+.spiral {
+  width: 28px;
+  height: 28px;
+  border: 3px solid rgba(255,255,255,0.25);
+  border-radius: 50%;
+  position: relative;
+}
+
+.spiral::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: -8px;
+  right: -8px;
+  height: 2px;
+  background: rgba(255,255,255,0.15);
+}
+
+.notebook-page {
+  flex: 1;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  background:
+    repeating-linear-gradient(
+      transparent,
+      transparent 31px,
+      #e8f4f0 31px,
+      #e8f4f0 32px
+    ),
+    #fafffe;
+  background-size: 100% 32px;
+}
+
+/* ─────────────────────────────────────────
+   Prompt Suggestions
+───────────────────────────────────────── */
+.prompt-suggestions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.ps-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.prompt-pill {
+  padding: 6px 14px;
+  border-radius: 100px;
+  border: 1.5px solid var(--warm-sand);
+  background: var(--white);
+  color: var(--text-muted);
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.prompt-pill:hover {
+  border-color: var(--green-soft);
+  color: var(--green-deep);
+  background: var(--green-mist);
+}
+
+/* ─────────────────────────────────────────
+   Textarea
+───────────────────────────────────────── */
+.notebook-textarea {
+  flex: 1;
+  width: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  line-height: 2;
+  color: var(--text-dark);
+  resize: none;
+  min-height: 320px;
+  letter-spacing: 0.01em;
+}
+
+.notebook-textarea::placeholder {
+  color: var(--text-light);
+  font-style: italic;
+}
+
+/* ─────────────────────────────────────────
+   Notebook Footer
+───────────────────────────────────────── */
+.notebook-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--green-pale);
+}
+
+.word-count {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.notebook-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.btn-ghost-dark {
+  background: transparent;
+  color: var(--text-muted);
+  border: 1.5px solid var(--warm-sand);
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  padding: 10px 20px;
+  border-radius: 100px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn-ghost-dark:hover {
+  color: var(--text-body);
+  border-color: var(--text-muted);
+}
+
+.btn-spinner {
+  width: 18px;
+  height: 18px;
+  border-width: 2px;
+  border-color: rgba(255,255,255,0.3);
+  border-top-color: var(--white);
+}
+
+/* ─────────────────────────────────────────
+   Reflection Panel
+───────────────────────────────────────── */
+.reflection-panel {
+  margin-top: 32px;
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  animation: fadeUp 0.5s ease both;
+}
+
+.rp-header {
+  background: linear-gradient(135deg, var(--green-deep), var(--green-mid));
+  padding: 28px 32px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: var(--white);
+}
+
+.rp-avatar {
+  width: 52px;
+  height: 52px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.rp-header h3 {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  margin-bottom: 4px;
+}
+
+.rp-header p {
+  font-size: 0.85rem;
+  opacity: 0.75;
+}
+
+.rp-body {
+  padding: 32px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.rp-section {
+  padding: 20px;
+  background: var(--cream);
+  border-radius: var(--radius-md);
+}
+
+.rp-suggestion {
+  grid-column: 1 / -1;
+  background: var(--green-mist);
+  border-left: 3px solid var(--green-soft);
+}
+
+.rp-label {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--green-deep);
+  margin-bottom: 10px;
+  letter-spacing: 0.02em;
+}
+
+.rp-section p {
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  line-height: 1.8;
+  color: var(--text-body);
+}
+
+.rp-emotions-text {
+  font-style: italic;
+  color: var(--lavender-deep) !important;
+}
+
+.rp-footer {
+  padding: 20px 32px;
+  border-top: 1px solid var(--warm-sand);
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+/* ─────────────────────────────────────────
+   Past Entries Sidebar
+───────────────────────────────────────── */
+.journal-sidebar-col {
+  padding-top: 80px; /* align with where editor starts roughly */
+}
+
+.past-entries-header {
+  margin-bottom: 20px;
+}
+
+.past-entries-header h3 {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  color: var(--text-dark);
+  margin-bottom: 4px;
+}
+
+.past-entries-header p {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.past-entries {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.past-entry {
+  padding: 16px;
+  background: var(--white);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: var(--transition);
+  border-left: 3px solid var(--warm-sand);
+}
+
+.past-entry:hover {
+  border-left-color: var(--green-soft);
+  box-shadow: var(--shadow-md);
+  transform: translateX(4px);
+}
+
+.pe-date {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+  margin-bottom: 6px;
+}
+
+.pe-preview {
+  font-size: 0.85rem;
+  color: var(--text-body);
+  line-height: 1.6;
+  margin-bottom: 8px;
+}
+
+.pe-emotions {
+  font-size: 0.75rem;
+  color: var(--lavender-deep);
+  font-style: italic;
+  line-height: 1.5;
+}
+
+.no-entries {
+  text-align: center;
+  padding: 32px 20px;
+  color: var(--text-muted);
+  background: var(--cream-warm);
+  border-radius: var(--radius-md);
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+
+/* ─────────────────────────────────────────
+   Journal Tips
+───────────────────────────────────────── */
+.journal-tip {
+  display: flex;
+  gap: 12px;
+  padding: 16px;
+  background: var(--lavender-pale);
+  border-radius: var(--radius-md);
+  margin-bottom: 12px;
+}
+
+.tip-icon {
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.journal-tip p {
+  font-size: 0.83rem;
+  color: var(--lavender-deep);
+  line-height: 1.6;
+}
+
+@media (max-width: 900px) {
+  .journal-layout {
+    grid-template-columns: 1fr;
+    padding: 24px 20px 60px;
+  }
+  .journal-sidebar-col { padding-top: 0; }
+  .rp-body { grid-template-columns: 1fr; }
+  .rp-suggestion { grid-column: 1; }
+}
+
+.cursor-dot {
+    position: fixed;
+    width: 6px;
+    height: 6px;
+    background: black;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+}
+
+.cursor-ring {
+    position: fixed;
+    width: 30px;
+    height: 30px;
+    border: 2px solid black;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+}

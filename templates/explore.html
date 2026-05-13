@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Explore — Samajh</title>
+  <link rel="stylesheet" href="/static/design.css">
+  <link rel="stylesheet" href="/static/explore.css">
+</head>
+<body>
+
+  <div id="cursorDot" class="cursor-dot"></div>
+  <div id="cursorRing" class="cursor-ring"></div>
+
+  <nav class="nav" id="mainNav">
+    <a href="/" class="nav-logo">Samajh<span>.</span></a>
+    <ul class="nav-links">
+      <li><a href="/learn">Learning Hub</a></li>
+      <li><a href="/journal">Journal</a></li>
+      <li><a href="/saathi">Saathi</a></li>
+      <li><a href="/explore" class="active">Explore</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-wrapper">
+
+    <!-- Page Hero -->
+    <div class="explore-hero">
+      <div class="eh-inner">
+        <span class="section-label animate-fadeup">AI Recommendations</span>
+        <h1 class="animate-fadeup-delay-1">What's on your mind?</h1>
+        <p class="animate-fadeup-delay-2">
+          Tell us a topic — anxiety, burnout, relationships, sleep — and we'll curate 
+          videos, tips, and insights just for you.
+        </p>
+
+        <!-- Search Bar -->
+        <div class="explore-search animate-fadeup-delay-3">
+          <div class="es-input-wrap">
+            <span class="es-icon">🔍</span>
+            <input
+              type="text"
+              id="topicInput"
+              class="es-input"
+              placeholder="e.g. 'managing anxiety', 'burnout', 'relationship stress'…"
+              onkeydown="if(event.key==='Enter') explore()"
+            >
+          </div>
+          <button class="btn btn-primary btn-lg" onclick="explore()" id="exploreBtn">
+            <span id="exploreBtnText">Explore →</span>
+            <div class="spinner btn-spinner hidden" id="exploreSpinner" style="width:20px;height:20px;border-width:2px;"></div>
+          </button>
+        </div>
+
+        <!-- Quick topics -->
+        <div class="quick-topics animate-fadeup-delay-4">
+          <span class="qt-label">Try:</span>
+          <button class="qt-chip" onclick="quickExplore('anxiety')">Anxiety</button>
+          <button class="qt-chip" onclick="quickExplore('depression')">Depression</button>
+          <button class="qt-chip" onclick="quickExplore('burnout')">Burnout</button>
+          <button class="qt-chip" onclick="quickExplore('grief')">Grief</button>
+          <button class="qt-chip" onclick="quickExplore('relationship stress')">Relationship Stress</button>
+          <button class="qt-chip" onclick="quickExplore('sleep and mental health')">Sleep</button>
+          <button class="qt-chip" onclick="quickExplore('mindfulness')">Mindfulness</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Results Section (hidden initially) -->
+    <div id="resultsSection" class="results-section hidden">
+      <div class="section">
+
+        <!-- Topic context -->
+        <div class="topic-context-banner" id="topicContext">
+          <div class="tcb-icon">💡</div>
+          <p id="topicContextText"></p>
+        </div>
+
+        <!-- Tips Grid -->
+        <div class="results-block" id="tipsBlock">
+          <div class="rb-header">
+            <div class="rb-icon">🌱</div>
+            <div>
+              <h3>Gentle guidance</h3>
+              <p>Practical insights to help you navigate this topic</p>
+            </div>
+          </div>
+          <div class="tips-grid" id="tipsGrid"></div>
+        </div>
+
+        <!-- Videos -->
+        <div class="results-block" id="videosBlock">
+          <div class="rb-header">
+            <div class="rb-icon">🎥</div>
+            <div>
+              <h3>Curated videos</h3>
+              <p>Educational and thoughtful content from trusted creators</p>
+            </div>
+          </div>
+          <div class="videos-grid" id="videosGrid"></div>
+        </div>
+
+        <!-- Next steps -->
+        <div class="explore-next">
+          <div class="en-card en-journal">
+            <div class="en-emoji">📓</div>
+            <h4>Reflect on what you learned</h4>
+            <p>Write about your thoughts in your journal</p>
+            <a href="/journal" class="btn btn-primary btn-sm mt-16">Open Journal</a>
+          </div>
+          <div class="en-card en-saathi">
+            <div class="en-emoji">🤝</div>
+            <h4>Talk it through with Saathi</h4>
+            <p>Explore the topic in conversation with your AI companion</p>
+            <a href="/saathi" class="btn btn-lavender btn-sm mt-16">Chat with Saathi</a>
+          </div>
+          <div class="en-card en-learn">
+            <div class="en-emoji">📚</div>
+            <h4>Read a full article</h4>
+            <p>Go deeper with our educational learning hub</p>
+            <a href="/learn" class="btn btn-secondary btn-sm mt-16">Learning Hub</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Loading State (hidden initially) -->
+    <div id="loadingSection" class="hidden" style="text-align:center; padding:80px 40px;">
+      <div class="explore-loading">
+        <div class="el-spinner">
+          <div class="el-orbit"></div>
+          <div class="el-orbit el-orbit-2"></div>
+          <span class="el-icon">✨</span>
+        </div>
+        <p>Finding the best resources on your topic…</p>
+        <p class="text-muted" style="font-size:0.85rem; margin-top:8px;">This takes a moment</p>
+      </div>
+    </div>
+
+    <!-- Empty state -->
+    <div class="empty-section" id="emptyState">
+      <div class="section text-center">
+        <div class="es-cards">
+          <div class="es-preview-card">
+            <div class="esp-icon">🧘</div>
+            <div class="esp-lines">
+              <div class="esp-line w70"></div>
+              <div class="esp-line w50"></div>
+            </div>
+          </div>
+          <div class="es-preview-card es-center">
+            <div class="esp-icon">💬</div>
+            <div class="esp-lines">
+              <div class="esp-line w80"></div>
+              <div class="esp-line w60"></div>
+            </div>
+          </div>
+          <div class="es-preview-card">
+            <div class="esp-icon">🔬</div>
+            <div class="esp-lines">
+              <div class="esp-line w65"></div>
+              <div class="esp-line w45"></div>
+            </div>
+          </div>
+        </div>
+        <p class="text-muted mt-32" style="font-size:1rem;">
+          Enter a topic above to see personalized resources and videos
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+document.addEventListener("DOMContentLoaded", () => {
+  const dot = document.getElementById('cursorDot');
+  const ring = document.getElementById('cursorRing');
+
+  let mx = 0, my = 0, rx = 0, ry = 0;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX;
+    my = e.clientY;
+
+    if (dot) {
+      dot.style.left = mx + 'px';
+      dot.style.top = my + 'px';
+    }
+  });
+
+  function animate() {
+    rx += (mx - rx) * 0.1;
+    ry += (my - ry) * 0.1;
+
+    if (ring) {
+      ring.style.left = rx + 'px';
+      ring.style.top = ry + 'px';
+    }
+
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+});
+</script>
+
+<script>
+async function explore() {
+  const input = document.getElementById("topicInput");
+  const topic = input.value.trim();
+
+  if (!topic) return;
+
+  // UI elements
+  const loading = document.getElementById("loadingSection");
+  const results = document.getElementById("resultsSection");
+  const empty = document.getElementById("emptyState");
+
+  const btnText = document.getElementById("exploreBtnText");
+  const spinner = document.getElementById("exploreSpinner");
+
+  // Show loading
+  empty.classList.add("hidden");
+  results.classList.add("hidden");
+  loading.classList.remove("hidden");
+  spinner.classList.remove("hidden");
+  btnText.innerText = "Exploring...";
+
+  try {
+    const res = await fetch("/api/recommend", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ topic })
+    });
+
+    const data = await res.json();
+
+    loading.classList.add("hidden");
+    spinner.classList.add("hidden");
+    btnText.innerText = "Explore →";
+
+    if (data.error) {
+      alert(data.error);
+      return;
+    }
+
+    renderResults(data);
+
+  } catch (err) {
+    console.error(err);
+    loading.classList.add("hidden");
+    btnText.innerText = "Explore →";
+    alert("Something went wrong.");
+  }
+}
+</script>
+
+<script>
+function renderResults(data) {
+  const results = document.getElementById("resultsSection");
+  results.classList.remove("hidden");
+
+  // Context
+  document.getElementById("topicContextText").innerText = data.context;
+
+  // Tips
+  const tipsGrid = document.getElementById("tipsGrid");
+  tipsGrid.innerHTML = "";
+
+  data.tips.forEach(tip => {
+    const div = document.createElement("div");
+    div.className = "tip-card";
+    div.innerText = tip;
+    tipsGrid.appendChild(div);
+  });
+
+  // Videos
+  const videosGrid = document.getElementById("videosGrid");
+  videosGrid.innerHTML = "";
+
+  data.videos.forEach(video => {
+    const div = document.createElement("div");
+    div.className = "video-card";
+
+    div.innerHTML = `
+      <iframe 
+        src="https://www.youtube.com/embed/${video.id}" 
+        frameborder="0" 
+        allowfullscreen>
+      </iframe>
+      <p>${video.title}</p>
+    `;
+
+    videosGrid.appendChild(div);
+  });
+}
+</script>
+
+<script>
+function quickExplore(topic) {
+  document.getElementById("topicInput").value = topic;
+  explore();
+}
+</script>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-logo">Samajh.</div>
+    <p>Not a substitute for professional help. If you're in crisis, please reach out to a helpline.</p>
+    <ul class="footer-links">
+      <li><a href="/learn">Learning Hub</a></li>
+      <li><a href="/journal">Journal</a></li>
+      <li><a href="/saathi">Saathi</a></li>
+    </ul>
+  </footer>
+
+
+</body>
+</html>

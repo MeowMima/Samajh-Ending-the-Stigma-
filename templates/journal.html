@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Journal — Samajh</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/static/design.css">
+  <link rel="stylesheet" href="/static/journal.css">
+</head>
+<body>
+
+  <!-- CUSTOM CURSOR -->
+  <div id="cursorDot" class="cursor-dot"></div>
+  <div id="cursorRing" class="cursor-ring"></div>
+
+  <!-- NAV -->
+  <nav class="nav" id="mainNav">
+    <a href="/" class="nav-logo">Samajh<span>.</span></a>
+    <ul class="nav-links">
+      <li><a href="/learn">Learning Hub</a></li>
+      <li><a href="/journal" class="active">Journal</a></li>
+      <li><a href="/saathi">Saathi</a></li>
+      <li><a href="/explore">Explore</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-wrapper">
+    <div class="journal-layout">
+
+      <!-- LEFT -->
+      <div class="journal-editor-col">
+
+        <div class="journal-header">
+          <div class="journal-date" id="journalDate"></div>
+          <h1>Your Journal</h1>
+          <p class="journal-subtitle">
+            Write freely. No rules, no judgment. Just you and the page.
+          </p>
+        </div>
+
+        <div class="notebook">
+
+          <div class="notebook-binding">
+            <div class="spiral"></div>
+            <div class="spiral"></div>
+            <div class="spiral"></div>
+            <div class="spiral"></div>
+            <div class="spiral"></div>
+            <div class="spiral"></div>
+            <div class="spiral"></div>
+            <div class="spiral"></div>
+            <div class="spiral"></div>
+            <div class="spiral"></div>
+          </div>
+
+          <div class="notebook-page">
+
+            <!-- PROMPTS -->
+            <div class="prompt-suggestions" id="promptSuggestions">
+              <span class="ps-label">Start here if you're stuck:</span>
+
+              <button class="prompt-pill"
+                onclick="insertPrompt(`Today I'm feeling...`)">
+                Today I'm feeling...
+              </button>
+
+              <button class="prompt-pill"
+                onclick="insertPrompt(`Something I've been thinking about is...`)">
+                Something I've been thinking about...
+              </button>
+
+              <button class="prompt-pill"
+                onclick="insertPrompt(`Right now, what I really need is...`)">
+                What I really need...
+              </button>
+
+              <button class="prompt-pill"
+                onclick="insertPrompt(`One thing that happened today was...`)">
+                Something that happened...
+              </button>
+            </div>
+
+            <!-- TEXTAREA -->
+            <textarea
+              id="journalText"
+              class="notebook-textarea"
+              placeholder="Write whatever's on your mind… There's no right or wrong way to do this."
+              oninput="handleTyping()"
+            ></textarea>
+
+            <div class="notebook-footer">
+              <div class="word-count" id="wordCount">0 words</div>
+
+              <div class="notebook-actions">
+                <button class="btn btn-ghost-dark" onclick="clearJournal()">Clear</button>
+
+                <button class="btn btn-primary" id="reflectBtn"
+                        onclick="reflectWithAI()" disabled>
+                  <span id="reflectBtnText">✨ Reflect with AI</span>
+                  <div class="spinner btn-spinner hidden" id="reflectSpinner"></div>
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- REFLECTION -->
+        <div id="reflectionPanel" class="reflection-panel hidden">
+          <div class="rp-header">
+            <div class="rp-avatar">🌿</div>
+            <div>
+              <h3>Your Reflection</h3>
+              <p>A gentle perspective on what you've shared</p>
+            </div>
+          </div>
+
+          <div class="rp-body">
+            <div class="rp-section">
+              <div class="rp-label">📝 In summary</div>
+              <p id="rpSummary"></p>
+            </div>
+
+            <div class="rp-section">
+              <div class="rp-label">💫 Emotional themes</div>
+              <p id="rpEmotions" class="rp-emotions-text"></p>
+            </div>
+
+            <div class="rp-section">
+              <div class="rp-label">🪞 A reflection</div>
+              <p id="rpReflection"></p>
+            </div>
+
+            <div class="rp-section rp-suggestion">
+              <div class="rp-label">🌱 A gentle suggestion</div>
+              <p id="rpSuggestion"></p>
+            </div>
+          </div>
+
+          <div class="rp-footer">
+            <button class="btn btn-secondary" onclick="writeNew()">Write again</button>
+            <a href="/saathi" class="btn btn-lavender">Talk to Saathi →</a>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- RIGHT -->
+      <div class="journal-sidebar-col">
+
+        <div class="past-entries-header">
+          <h3>Past Reflections</h3>
+          <p>Your recent entries</p>
+        </div>
+
+        <div id="pastEntries" class="past-entries">
+
+          {% if entries %}
+            {% for entry in entries %}
+            <div class="past-entry" onclick="loadEntry({ {loop.index0} })">
+
+              <div class="pe-date">
+                {{ entry.created_at[:16] if entry.created_at else 'Recent' }}
+              </div>
+
+              <div class="pe-preview">
+                {{ entry.content[:120] }}
+                {% if entry.content|length > 120 %}…{% endif %}
+              </div>
+
+              {% if entry.ai_emotions %}
+              <div class="pe-emotions">{{ entry.ai_emotions }}</div>
+              {% endif %}
+
+            </div>
+            {% endfor %}
+
+          {% else %}
+            <div class="no-entries">
+              <div style="font-size:2rem; margin-bottom:12px;">📓</div>
+              <p>Your past entries will appear here after you write and reflect.</p>
+            </div>
+          {% endif %}
+
+        </div>
+
+        <div class="journal-tip">
+          <div class="tip-icon">💡</div>
+          <p>Writing for even 5 minutes can help you process your thoughts.</p>
+        </div>
+
+        <div class="journal-tip">
+          <div class="tip-icon">🔒</div>
+          <p>Your entries are stored only in this session.</p>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-logo">Samajh.</div>
+    <p>Not a substitute for professional help.</p>
+  </footer>
+
+  <!-- ✅ FIXED JINJA JSON -->
+  <script>
+    const pastEntriesData = {{ entries | default([]) | tojson }};
+  </script>
+
+  <!-- CURSOR SCRIPT -->
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const dot = document.getElementById('cursorDot');
+    const ring = document.getElementById('cursorRing');
+
+    let mx = 0, my = 0, rx = 0, ry = 0;
+
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX;
+      my = e.clientY;
+
+      if (dot) {
+        dot.style.left = mx + 'px';
+        dot.style.top = my + 'px';
+      }
+    });
+
+    function animate() {
+      rx += (mx - rx) * 0.1;
+      ry += (my - ry) * 0.1;
+
+      if (ring) {
+        ring.style.left = rx + 'px';
+        ring.style.top = ry + 'px';
+      }
+
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+  });
+  </script>
+
+  <script>
+  function handleTyping() {
+    const text = document.getElementById("journalText").value;
+    const wordCount = text.trim() ? text.trim().split(/\s+/).length : 0;
+    
+    document.getElementById("wordCount").innerText = wordCount + " words";
+    
+    const btn = document.getElementById("reflectBtn");
+    if (btn) {
+      btn.disabled = wordCount < 5;
+    }
+    }
+  </script>
+
+  <script>
+async function reflectWithAI() {
+  const text = document.getElementById("journalText").value.trim();
+
+  if (!text) return;
+
+  const btn = document.getElementById("reflectBtn");
+  const spinner = document.getElementById("reflectSpinner");
+
+  btn.disabled = true;
+  spinner.classList.remove("hidden");
+
+  try {
+    const res = await fetch("/api/journal/reflect", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ text })
+    });
+
+    const data = await res.json();
+
+    if (data.error) {
+      alert(data.error);
+      return;
+    }
+
+    // Populate UI
+    document.getElementById("rpSummary").innerText = data.summary;
+    document.getElementById("rpEmotions").innerText = data.emotions;
+    document.getElementById("rpReflection").innerText = data.reflection;
+    document.getElementById("rpSuggestion").innerText = data.suggestion;
+
+    document.getElementById("reflectionPanel").classList.remove("hidden");
+
+  } catch (err) {
+    console.error(err);
+    alert("Something went wrong.");
+  } finally {
+    spinner.classList.add("hidden");
+    btn.disabled = false;
+  }
+}
+</script>
+
+</body>
+</html>

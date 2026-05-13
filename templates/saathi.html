@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Saathi — Samajh</title>
+  <link rel="stylesheet" href="/static/design.css">
+  <link rel="stylesheet" href="/static/saathi.css">
+</head>
+<body>
+
+  <!-- CUSTOM CURSOR -->
+  <div id="cursorDot" class="cursor-dot"></div>
+  <div id="cursorRing" class="cursor-ring"></div>
+
+  <nav class="nav" id="mainNav">
+    <a href="/" class="nav-logo">Samajh<span>.</span></a>
+    <ul class="nav-links">
+      <li><a href="/learn">Learning Hub</a></li>
+      <li><a href="/journal">Journal</a></li>
+      <li><a href="/saathi" class="active">Saathi</a></li>
+      <li><a href="/explore">Explore</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-wrapper saathi-page">
+
+    <div class="saathi-layout">
+
+      <!-- Saathi Profile Panel -->
+      <div class="saathi-profile-panel">
+        <div class="sp-avatar">
+          <div class="sp-avatar-inner">🌿</div>
+          <div class="sp-status"><span></span> Online</div>
+        </div>
+        <h2>Saathi</h2>
+        <p class="sp-tagline">साथी — Your companion</p>
+        <p class="sp-desc">
+          Saathi is here to listen, reflect, and gently guide you. Not a therapist — 
+          just a warm, thoughtful companion who's always here.
+        </p>
+
+        <div class="sp-traits">
+          <div class="sp-trait">
+            <span>🤝</span> Always listening
+          </div>
+          <div class="sp-trait">
+            <span>🚫</span> Never judges
+          </div>
+          <div class="sp-trait">
+            <span>💡</span> Gently curious
+          </div>
+          <div class="sp-trait">
+            <span>🔒</span> Private & safe
+          </div>
+        </div>
+
+        <!-- Starter topics -->
+        <div class="sp-starters">
+          <p class="sp-starters-label">Try asking Saathi…</p>
+          <button class="starter-btn" onclick="sendStarter(this)">What is anxiety exactly?</button>
+          <button class="starter-btn" onclick="sendStarter(this)">I'm feeling overwhelmed today.</button>
+          <button class="starter-btn" onclick="sendStarter(this)">How do I help a friend who's struggling?</button>
+          <button class="starter-btn" onclick="sendStarter(this)">What's the difference between sadness and depression?</button>
+        </div>
+
+        <!-- Disclaimer -->
+        <div class="sp-disclaimer">
+          <strong>⚠️ Important:</strong> Saathi is not a crisis service or therapist. 
+          If you're in danger, please contact a helpline immediately.
+        </div>
+      </div>
+
+      <!-- Chat Window -->
+      <div class="chat-window">
+
+        <!-- Chat header -->
+        <div class="chat-header">
+          <div class="ch-avatar">🌿</div>
+          <div>
+            <div class="ch-name">Saathi</div>
+            <div class="ch-subtitle">Your mental wellness companion</div>
+          </div>
+          <button class="clear-chat-btn" onclick="clearChat()">Clear chat</button>
+        </div>
+
+        <!-- Messages -->
+        <div class="chat-messages" id="chatMessages">
+          <!-- Initial welcome message -->
+          <div class="message message-saathi">
+            <div class="msg-avatar">🌿</div>
+            <div class="msg-content">
+              <div class="msg-bubble">
+                Namaste 🙏 I'm Saathi, your companion on this platform. I'm here to listen and gently explore whatever's on your mind — whether that's a question about mental health, something you're feeling, or just a thought you'd like to talk through.
+                <br><br>
+                What would you like to explore today?
+              </div>
+              <div class="msg-time">Just now</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Typing indicator (hidden by default) -->
+        <div class="typing-indicator hidden" id="typingIndicator">
+          <div class="msg-avatar">🌿</div>
+          <div class="typing-dots">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+          </div>
+        </div>
+
+        <!-- Input Area -->
+        <div class="chat-input-area">
+          <textarea
+            id="chatInput"
+            class="chat-textarea"
+            placeholder="Say something to Saathi…"
+            rows="1"
+            onkeydown="handleChatKeydown(event)"
+            oninput="autoResize(this)"
+          ></textarea>
+          <button class="send-btn" id="sendBtn" onclick="sendMessage()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="22" y1="2" x2="11" y2="13"></line>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+            </svg>
+          </button>
+        </div>
+
+        <div class="chat-footer-note">
+          Saathi provides educational support only — not therapy or medical advice.
+        </div>
+
+      </div><!-- end chat window -->
+
+    </div><!-- end layout -->
+
+  </div>
+
+  <!-- Crisis Modal (hidden by default) -->
+  <div class="crisis-modal hidden" id="crisisModal">
+    <div class="crisis-modal-inner">
+      <div class="cm-icon">🆘</div>
+      <h3>You're not alone</h3>
+      <p>If you're going through a crisis, please reach out to these helplines immediately. They are free, confidential, and available 24/7.</p>
+      <div class="cm-helplines">
+        <div class="cm-helpline">
+          <strong>iCall (India)</strong>
+          <a href="tel:9152987821">9152987821</a>
+        </div>
+        <div class="cm-helpline">
+          <strong>Vandrevala Foundation</strong>
+          <a href="tel:18602662345">1860-2662-345</a>
+        </div>
+        <div class="cm-helpline">
+          <strong>AASRA</strong>
+          <a href="tel:9820466627">9820466627</a>
+        </div>
+        <div class="cm-helpline">
+          <strong>Snehi</strong>
+          <a href="tel:044-24640050">044-24640050</a>
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="closeCrisisModal()">I understand, close this</button>
+    </div>
+  </div>
+
+  <!-- CURSOR SCRIPT -->
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const dot = document.getElementById('cursorDot');
+    const ring = document.getElementById('cursorRing');
+
+    let mx = 0, my = 0, rx = 0, ry = 0;
+
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX;
+      my = e.clientY;
+
+      if (dot) {
+        dot.style.left = mx + 'px';
+        dot.style.top = my + 'px';
+      }
+    });
+
+    function animate() {
+      rx += (mx - rx) * 0.1;
+      ry += (my - ry) * 0.1;
+
+      if (ring) {
+        ring.style.left = rx + 'px';
+        ring.style.top = ry + 'px';
+      }
+
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+  });
+  </script>
+
+  <script>
+let chatHistory = [];
+
+async function sendMessage() {
+  const input = document.getElementById("chatInput");
+  const text = input.value.trim();
+
+  if (!text) return;
+
+  // Add user message to UI
+  addMessage(text, "user");
+
+  // Clear input
+  input.value = "";
+  input.style.height = "auto";
+
+  // Show typing indicator
+  const typing = document.getElementById("typingIndicator");
+  typing.classList.remove("hidden");
+
+  try {
+    const res = await fetch("/api/chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        message: text,
+        history: chatHistory
+      })
+    });
+
+    const data = await res.json();
+
+    // Hide typing
+    typing.classList.add("hidden");
+
+    if (data.error) {
+      addMessage("Something went wrong. Try again.", "saathi");
+      return;
+    }
+
+    // Add AI response
+    addMessage(data.response, "saathi");
+
+    // Crisis handling
+    if (data.crisis) {
+      showCrisisModal(data.crisis);
+    }
+
+    // Update history
+    chatHistory.push({ role: "user", content: text });
+    chatHistory.push({ role: "assistant", content: data.response });
+
+  } catch (err) {
+    typing.classList.add("hidden");
+    console.error(err);
+    addMessage("I'm having trouble responding right now.", "saathi");
+  }
+}
+</script>
+
+<script>
+function addMessage(text, sender) {
+  const container = document.getElementById("chatMessages");
+
+  const msg = document.createElement("div");
+  msg.className = `message message-${sender}`;
+
+  const avatar = document.createElement("div");
+  avatar.className = "msg-avatar";
+  avatar.innerText = sender === "user" ? "🧑" : "🌿";
+
+  const content = document.createElement("div");
+  content.className = "msg-content";
+
+  const bubble = document.createElement("div");
+  bubble.className = "msg-bubble";
+  bubble.innerText = text;
+
+  const time = document.createElement("div");
+  time.className = "msg-time";
+  time.innerText = "Now";
+
+  content.appendChild(bubble);
+  content.appendChild(time);
+
+  msg.appendChild(avatar);
+  msg.appendChild(content);
+
+  container.appendChild(msg);
+  container.scrollTop = container.scrollHeight;
+}
+</script>
+
+<script>
+function handleChatKeydown(e) {
+  if (e.key === "Enter" && !e.shiftKey) {
+    e.preventDefault();
+    sendMessage();
+  }
+}
+</script>
+
+<script>
+function autoResize(el) {
+  el.style.height = "auto";
+  el.style.height = el.scrollHeight + "px";
+}
+</script>
+
+<script>
+function sendStarter(btn) {
+  const text = btn.innerText;
+  document.getElementById("chatInput").value = text;
+  sendMessage();
+}
+</script>
+
+<script>
+function clearChat() {
+  const container = document.getElementById("chatMessages");
+  container.innerHTML = "";
+  chatHistory = [];
+}
+</script>
+
+<script>
+function showCrisisModal(data) {
+  const modal = document.getElementById("crisisModal");
+  modal.classList.remove("hidden");
+}
+
+function closeCrisisModal() {
+  document.getElementById("crisisModal").classList.add("hidden");
+}
+</script>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-logo">Samajh.</div>
+    <p>Not a substitute for professional help. If you're in crisis, please reach out to a helpline.</p>
+  </footer>
+
+
+</body>
+</html>

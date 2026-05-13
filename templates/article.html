@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Article — Samajh</title>
+  <link rel="stylesheet" href="/static/design.css">
+  <link rel="stylesheet" href="/static/article.css">
+</head>
+<body>
+
+  <nav class="nav" id="mainNav">
+    <a href="/" class="nav-logo">Samajh<span>.</span></a>
+    <ul class="nav-links">
+      <li><a href="/learn" class="active">Learning Hub</a></li>
+      <li><a href="/journal">Journal</a></li>
+      <li><a href="/saathi">Saathi</a></li>
+      <li><a href="/explore">Explore</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-wrapper">
+
+    <!-- Article Header -->
+    <div class="article-hero" id="articleHero">
+      <a href="/learn" class="back-link">← Back to Learning Hub</a>
+      <div class="article-hero-inner" id="articleHeroInner">
+        <!-- Topic icon and category injected by JS -->
+      </div>
+    </div>
+
+    <!-- Article Content -->
+    <div class="article-container">
+      <div class="article-sidebar">
+        <div class="sidebar-card">
+          <h4>In this article</h4>
+          <div id="tableOfContents"></div>
+        </div>
+        <div class="sidebar-card">
+          <h4>Feeling moved?</h4>
+          <p>Write about your thoughts in your journal.</p>
+          <a href="/journal" class="btn btn-primary btn-sm mt-8" style="width:100%; justify-content:center;">Open Journal</a>
+        </div>
+        <div class="sidebar-card">
+          <h4>Talk to Saathi</h4>
+          <p>Discuss what you've read with your AI companion.</p>
+          <a href="/saathi" class="btn btn-secondary btn-sm mt-8" style="width:100%; justify-content:center;">Chat Now</a>
+        </div>
+      </div>
+
+      <div class="article-main">
+        <!-- Loading state -->
+        <div id="articleLoading" class="article-loading">
+          <div class="spinner"></div>
+          <p>Generating your article with AI…</p>
+          <p class="text-muted" style="font-size:0.85rem; margin-top:8px;">This takes a few seconds</p>
+        </div>
+
+        <!-- Article content goes here -->
+        <article id="articleContent" class="prose hidden"></article>
+
+        <!-- Error state -->
+        <div id="articleError" class="hidden" style="text-align:center; padding:60px 0;">
+          <div style="font-size:3rem; margin-bottom:16px;">🌿</div>
+          <h3>Couldn't load this article</h3>
+          <p class="text-muted">This might be due to a missing API key. Check your .env file.</p>
+          <a href="/learn" class="btn btn-secondary mt-24">← Browse other topics</a>
+        </div>
+
+        <!-- After article: related content -->
+        <div id="afterArticle" class="after-article hidden">
+          <div class="divider" style="margin:48px auto;"></div>
+          <h3>Explore further</h3>
+          <div class="related-actions">
+            <a href="/explore" class="related-btn">
+              <span>🎥</span>
+              <span>Watch videos on this topic</span>
+            </a>
+            <a href="/journal" class="related-btn">
+              <span>📓</span>
+              <span>Reflect in your journal</span>
+            </a>
+            <a href="/saathi" class="related-btn">
+              <span>🤝</span>
+              <span>Discuss with Saathi</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-logo">Samajh.</div>
+    <p>Educational content — not a substitute for professional mental health care.</p>
+  </footer>
+
+  <script>
+    // Get topic from URL path
+    const topic = window.location.pathname.split('/article/')[1];
+    const topicMeta = {
+      history:      { icon: '🏛️', category: 'History', color: 'var(--green-deep)' },
+      anxiety:      { icon: '🌊', category: 'Understanding', color: '#3d4f7a' },
+      depression:   { icon: '🌧️', category: 'Understanding', color: '#4a3d6e' },
+      stigma:       { icon: '🔓', category: 'Society', color: '#7a4a3a' },
+      caregivers:   { icon: '❤️', category: 'Relationships', color: '#7a4a5a' },
+      stories:      { icon: '✨', category: 'Real Stories', color: '#4a6e3d' },
+      research:     { icon: '🔬', category: 'Science', color: '#3a5a7a' },
+      burnout:      { icon: '🕯️', category: 'Modern Life', color: '#7a5a3a' },
+      mindfulness:  { icon: '🧘', category: 'Wellness', color: '#3d6a5a' },
+      relationships:{ icon: '🫂', category: 'Connection', color: '#6a3d7a' }
+    };
+
+    const meta = topicMeta[topic] || { icon: '📖', category: 'Article', color: 'var(--green-deep)' };
+
+    // Set hero background
+    document.getElementById('articleHero').style.background =
+      `linear-gradient(135deg, ${meta.color}, rgba(0,0,0,0.6))`;
+
+    // Inject hero content
+    document.getElementById('articleHeroInner').innerHTML = `
+      <div class="article-category">${meta.icon} ${meta.category}</div>
+      <h1 id="articleTitle">Loading…</h1>
+    `;
+
+    // Fetch and display article
+    async function loadArticle() {
+      try {
+        const res = await fetch('/api/article/' + topic);
+        const data = await res.json();
+
+        if (data.error) throw new Error(data.error);
+
+        // Show content
+        const contentEl = document.getElementById('articleContent');
+        contentEl.innerHTML = data.content;
+        contentEl.classList.remove('hidden');
+        document.getElementById('articleLoading').classList.add('hidden');
+        document.getElementById('afterArticle').classList.remove('hidden');
+
+        // Update title in hero
+        const firstH2 = contentEl.querySelector('h2');
+        const titleText = firstH2 ? firstH2.textContent : topic.charAt(0).toUpperCase() + topic.slice(1);
+        document.getElementById('articleTitle').textContent = titleText;
+        document.title = titleText + ' — Samajh';
+
+        // Build table of contents
+        buildTOC(contentEl);
+
+      } catch (err) {
+        document.getElementById('articleLoading').classList.add('hidden');
+        document.getElementById('articleError').classList.remove('hidden');
+      }
+    }
+
+    function buildTOC(articleEl) {
+      const headings = articleEl.querySelectorAll('h2');
+      const toc = document.getElementById('tableOfContents');
+      if (!headings.length) return;
+
+      headings.forEach((h, i) => {
+        h.id = 'section-' + i;
+        const link = document.createElement('a');
+        link.href = '#section-' + i;
+        link.textContent = h.textContent;
+        link.className = 'toc-link';
+        toc.appendChild(link);
+      });
+    }
+
+    loadArticle();
+  </script>
+  
+
+</body>
+</html>
