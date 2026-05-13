@@ -6,8 +6,8 @@
   <title>Journal — Samajh</title>
 
   <!-- CSS -->
-  <link rel="stylesheet" href="/static/design.css">
-  <link rel="stylesheet" href="/static/journal.css">
+  <link rel="stylesheet" href="{{url_for('static',filename='design.css')}}">
+  <link rel="stylesheet" href="{{url_for('static',filename='journal.css')}}">
 </head>
 <body>
 
@@ -159,7 +159,7 @@
 
           {% if entries %}
             {% for entry in entries %}
-            <div class="past-entry" onclick="loadEntry({ {loop.index0} })">
+            <div class="past-entry" onclick="loadEntry({{ loop.index0 }})">
 
               <div class="pe-date">
                 {{ entry.created_at[:16] if entry.created_at else 'Recent' }}
@@ -306,5 +306,60 @@ async function reflectWithAI() {
 }
 </script>
 
+<script>
+  function insertPrompt(text) {
+    const textarea = document.getElementById("journalText");
+
+    if(!textarea.value.trim()) {
+      textarea.value = text + " ";
+    }
+    else{
+      textarea.value += "\n\n" + text + " ";
+    }
+
+    textarea.focus();
+    handleTyping();
+  }
+
+  function clearJournal(){
+    document.getElementById("journalText").value = "";
+    handleTyping();
+
+    const panel = document.getElementById("reflectionPanel");
+    if(panel){
+      panel.classList.add("hidden");
+    }
+  }
+
+  function writeNew(){
+    clearJournal();
+
+    window.scrollTo({
+      top:0,
+      behavior:"smooth"
+    });
+  }
+
+  function loadEntry(index){
+    const entry = pastEntriesData[index];
+
+    if(!entry) return;
+
+    document.getElementById("journalText").value = entry.content || "";
+    document.getElementById("rpSummary").innerText = entry.ai_summary || "No summary available";
+    document.getElementById("rpEmotions").innerText = entry.ai_emotions || "No emotions detected";
+    document.getElementById("rpReflection").innerText = entry.ai_reflection || "No reflection available";
+    document.getElementById("rpSuggestion").innerText = entry.ai_suggestion || "No suggestion available";
+
+    document.getElementById("reflectionPanel").classList.remove("hidden");
+
+    handleTyping();
+
+    window.scrollTo({
+      top:0,
+      behavior:"smooth"
+    });
+  }
+</script>
 </body>
 </html>
