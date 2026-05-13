@@ -95,6 +95,9 @@ def call_llm(messages, system_prompt="", max_tokens=800):
 # ─────────────────────────────────────────
 # Routes - Pages
 # ─────────────────────────────────────────
+@app.route("/")
+def home():
+    return render_template("intro.html")
 
 @app.route("/")
 def intro():
