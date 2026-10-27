@@ -1,8 +1,10 @@
 """
-Samajh - Mental Health Education & Reflection Platform
-Flask Backend Application
+Samajh - Ending the Stigma
+Flask Backend
 """
-
+# ─────────────────────────────────────────
+# Imports
+# ─────────────────────────────────────────
 import os
 import sqlite3
 import json
@@ -16,13 +18,13 @@ app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY")
 
 # ─────────────────────────────────────────
-# Configuration
+# Configuration Constants
 # ─────────────────────────────────────────
 OPENROUTER_API_KEY = os.environ.get("OPENROUTER_API_KEY")
 YOUTUBE_API_KEY = os.environ.get("YOUTUBE_API_KEY")
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
 MODEL = "openai/gpt-3.5-turbo"           # Free model on OpenRouter
-
+#JAVA_CHAT_URL = os.environ.get("JAVA_CHAT_URL")  # e.g. http://localhost:8080/api/chat ; unset = pure Flask
 DATABASE = "users.db"
 
 # ─────────────────────────────────────────
@@ -215,7 +217,7 @@ Return your response as valid JSON with these exact keys:
 
 @app.route("/api/chat", methods=["POST"])
 def chat():
-    """Saathi chatbot endpoint."""
+    """Saathi chatbot endpoint"""
     data = request.get_json()
     user_message = data.get("message", "").strip()
     history = data.get("history", [])  # Previous messages from frontend

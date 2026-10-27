@@ -44,13 +44,13 @@ __________________________________________________________________________
 
 Journal entries are stored using SQLite.
 
-## 🎥 AI Recommendation System
+## AI Recommendation System
 - AI-generated mental health learning guidance
 - Dynamic educational recommendations
 - Real YouTube video integration using YouTube Data API
 - Topic-based emotional exploration
 
-## 📚 Learning Hub
+## Learning Hub
 - AI-generated educational articles
 - Mental health awareness content
 - Stigma reduction focused content
