@@ -56,7 +56,7 @@ Journal entries are stored using SQLite.
 - Stigma reduction focused content
 - Simplified psychology explanations
 
-TECH STACK
+# TECH STACK
 ______________________________________________________________________________
 
 ## Backend
